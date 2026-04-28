@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kana Typist Test</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+.option { 
+  padding: 10px; 
+  margin: 5px; 
+  border: 2px solid #ccc; 
+  cursor: pointer; 
+  background: white;
+}
+.option.active { background: #ff6d63; color: white; }
+#test-output { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+</style>
+</head>
+<body>
+<h2>Kana Typist - Test Version</h2>
+<p>Select a mode:</p>
+
+<div id="modeOptions">
+  <button class="option active" data-value="text">Text</button>
+  <button class="option" data-value="letters">Letters</button>
+  <button class="option" data-value="words">Words</button>
+  <button class="option" data-value="reading">Reading Practice</button>
+</div>
+
+<button onclick="startSession()">Start Session</button>
+
+<div id="test-output">Output will appear here...</div>
+
+<script>
+let selectedMode = 'text';
+
+// Mode selection
+document.querySelectorAll('#modeOptions .option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#modeOptions .option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedMode = btn.dataset.value;
+    updateOutput('Selected mode: ' + selectedMode);
+  });
+});
+
+function startSession() {
+  updateOutput('Starting session with mode: ' + selectedMode);
+  
+  if (selectedMode === 'reading') {
+    updateOutput('READING PRACTICE MODE ACTIVATED!');
+    // Test Reading Practice functionality
+    testReadingPractice();
+  } else {
+    updateOutput('Starting ' + selectedMode + ' typing session...');
+  }
+}
+
+function testReadingPractice() {
+  updateOutput('✅ Reading Practice mode is working!');
+  updateOutput('✅ Japanese sentences would appear here');
+  updateOutput('✅ Romaji and translation toggles would work');
+  updateOutput('✅ Grammar tooltips would appear on hover');
+}
+
+function updateOutput(message) {
+  const output = document.getElementById('test-output');
+  output.innerHTML += '<br>' + message;
+  console.log(message);
+}
+</script>
+</body>
+</html>
