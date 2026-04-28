@@ -1553,47 +1553,57 @@
   }
 
   // Reading Practice Event Listeners
-  readingEls.toggleRomaji?.addEventListener('click', () => {
-    readingState.romajiVisible = !readingState.romajiVisible;
-    readingEls.toggleRomaji.classList.toggle('active', readingState.romajiVisible);
-    readingEls.toggleRomaji.dataset.state = readingState.romajiVisible ? 'on' : 'off';
-    
-    // Update romaji visibility
-    const romajiElements = readingEls.sentenceText.querySelectorAll('.romaji-reading');
-    romajiElements.forEach(el => el.classList.toggle('hidden', !readingState.romajiVisible));
-  });
+  if (readingEls.toggleRomaji) {
+    readingEls.toggleRomaji.addEventListener('click', () => {
+      readingState.romajiVisible = !readingState.romajiVisible;
+      readingEls.toggleRomaji.classList.toggle('active', readingState.romajiVisible);
+      readingEls.toggleRomaji.dataset.state = readingState.romajiVisible ? 'on' : 'off';
+      
+      // Update romaji visibility
+      const romajiElements = readingEls.sentenceText.querySelectorAll('.romaji-reading');
+      romajiElements.forEach(el => el.classList.toggle('hidden', !readingState.romajiVisible));
+    });
+  }
 
-  readingEls.toggleTranslation?.addEventListener('click', () => {
-    readingState.translationVisible = !readingState.translationVisible;
-    readingEls.toggleTranslation.classList.toggle('active', readingState.translationVisible);
-    readingEls.toggleTranslation.dataset.state = readingState.translationVisible ? 'on' : 'off';
-    readingEls.translationText.classList.toggle('hidden', !readingState.translationVisible);
-    
-    if (readingState.translationVisible) {
-      showNextReadingStep();
-    }
-  });
+  if (readingEls.toggleTranslation) {
+    readingEls.toggleTranslation.addEventListener('click', () => {
+      readingState.translationVisible = !readingState.translationVisible;
+      readingEls.toggleTranslation.classList.toggle('active', readingState.translationVisible);
+      readingEls.toggleTranslation.dataset.state = readingState.translationVisible ? 'on' : 'off';
+      readingEls.translationText.classList.toggle('hidden', !readingState.translationVisible);
+      
+      if (readingState.translationVisible) {
+        showNextReadingStep();
+      }
+    });
+  }
 
-  readingEls.prevSentenceBtn?.addEventListener('click', () => {
-    if (readingState.currentSentenceIndex > 0) {
-      readingState.currentSentenceIndex--;
-      renderReadingSentence();
-      resetReadingSteps();
-    }
-  });
+  if (readingEls.prevSentenceBtn) {
+    readingEls.prevSentenceBtn.addEventListener('click', () => {
+      if (readingState.currentSentenceIndex > 0) {
+        readingState.currentSentenceIndex--;
+        renderReadingSentence();
+        resetReadingSteps();
+      }
+    });
+  }
 
-  readingEls.nextSentenceBtn?.addEventListener('click', () => {
-    const sentences = READING_SENTENCES[readingState.currentDifficulty];
-    if (readingState.currentSentenceIndex < sentences.length - 1) {
-      readingState.currentSentenceIndex++;
-      renderReadingSentence();
-      resetReadingSteps();
-    }
-  });
+  if (readingEls.nextSentenceBtn) {
+    readingEls.nextSentenceBtn.addEventListener('click', () => {
+      const sentences = READING_SENTENCES[readingState.currentDifficulty];
+      if (readingState.currentSentenceIndex < sentences.length - 1) {
+        readingState.currentSentenceIndex++;
+        renderReadingSentence();
+        resetReadingSteps();
+      }
+    });
+  }
 
-  readingEls.backToSetupBtn?.addEventListener('click', () => {
-    showScreen('setup');
-  });
+  if (readingEls.backToSetupBtn) {
+    readingEls.backToSetupBtn.addEventListener('click', () => {
+      showScreen('setup');
+    });
+  }
 
   // Difficulty selector
   readingEls.difficultyBtns.forEach(btn => {
@@ -1817,8 +1827,11 @@
   els.quitBtn.addEventListener('click', () => showScreen('setup'));
 
   // Additional event listeners for stats screen
-  $('#tryAgainBtn')?.addEventListener('click', startSession);
-  $('#backToSetupFromStatsBtn')?.addEventListener('click', () => showScreen('setup'));
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  if (tryAgainBtn) tryAgainBtn.addEventListener('click', startSession);
+  
+  const backToSetupFromStatsBtn = document.getElementById('backToSetupFromStatsBtn');
+  if (backToSetupFromStatsBtn) backToSetupFromStatsBtn.addEventListener('click', () => showScreen('setup'));
 
   els.typingCard.addEventListener('click', () => els.hiddenInput.focus({ preventScroll: true }));
   document.addEventListener('keydown', (e) => {
